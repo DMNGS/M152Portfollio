@@ -7,6 +7,8 @@
  * Date        : 2021.01.28
  * Version     : 1.0
  */
+
+$content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_STRING);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -65,9 +67,9 @@
                                     </div>
                                 </div>
 
-                                <!-- Exemple de post
-                                <div class="col-sm-9">
+                                <div class="col-sm-9">  
 
+                                    <!-- Exemple de post
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
                                             <h4>Lorem Ipsum</h4>
@@ -81,9 +83,9 @@
                                             Tempor id et duis dolor elit exercitation minim eiusmod ut elit labore.
                                         </div>
                                     </div>
+                                    -->
 
                                 </div>
-                                 -->
 
                             </div>
                             <!--/row-->

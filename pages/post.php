@@ -41,7 +41,7 @@
                                     <a href="../"><i class="fas fa-home"></i> Home</a>
                                 </li>
                                 <li>
-                                    <a href="#" role="button" data-toggle="modal"><i class="fas fa-plus"></i> Post</a>
+                                    <a href="./post.php" role="button" data-toggle="modal"><i class="fas fa-plus"></i> Post</a>
                                 </li>
                             </ul>
                         </nav>
@@ -55,7 +55,7 @@
                             <div class="row">
 
                                 <!-- main col right -->
-                                <div class="col-sm-8 col-sm-offset-2">
+                                <div class="col-sm-4 col-sm-offset-4">
 
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
@@ -63,13 +63,8 @@
                                         </div>
                                         <div class="panel-body">
                                             <form action="../" method="POST" id="formCreate">
-                                                <label for="title">Titre</label>
-                                                <input type="text" name="title">
-                                                <br />
-                                                <label for="content">Contenu</label>
-                                                <textarea name="content" form="formCreate"></textarea>
-                                                <br />
-                                                <input type="submit" name="create" value="Créer">
+                                                <textarea class="col-sm-12" name="content" form="formCreate" placeholder="Contenu du poste"></textarea>
+                                                <input class="btn btn-primary" type="submit" name="create" value="Créer">
                                             </form>
                                         </div>
                                     </div>
