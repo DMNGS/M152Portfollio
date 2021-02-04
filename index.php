@@ -33,15 +33,15 @@
                     <!-- top nav -->
                     <div class="navbar navbar-blue navbar-static-top">
                         <div class="navbar-header">
-                            <a href="/M152Portfollio/" class="navbar-brand logo">A</a>
+                            <img src="./img/pfp.png" alt="PFP" class="navbar-brand logo">
                         </div>
                         <nav class="collapse navbar-collapse" role="navigation">
                             <ul class="nav navbar-nav">
                                 <li>
-                                    <a href="#"><i class="fas fa-home"></i> Home</a>
+                                    <a href="./"><i class="fas fa-home"></i> Home</a>
                                 </li>
                                 <li>
-                                    <a href="#postModal" role="button" data-toggle="modal"><i class="fas fa-plus"></i> Post</a>
+                                    <a href="./pages/post.php" role="button" data-toggle="modal"><i class="fas fa-plus"></i> Post</a>
                                 </li>
                             </ul>
                         </nav>
@@ -58,14 +58,14 @@
                                 <div class="col-sm-3">
 
                                     <div class="panel panel-default">
-                                        <div class="panel-thumbnail"><img src="./img/bg_5.jpg" class="img-responsive"></div>
+                                        <div class="panel-thumbnail col-sm-offset-1"><img src="./img/pfp.png" class="img-responsive"></div>
                                         <div class="panel-body">
-                                            <p class="lead">Portfollio</p>
+                                            <p class="lead">Bienvenue dans mon portfollio</p>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- main col right -->
+                                <!-- Exemple de post
                                 <div class="col-sm-9">
 
                                     <div class="panel panel-default">
@@ -83,6 +83,8 @@
                                     </div>
 
                                 </div>
+                                 -->
+
                             </div>
                             <!--/row-->
                         </div><!-- /col-9 -->
