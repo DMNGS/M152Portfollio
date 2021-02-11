@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Projet      : M152Portfollio
  * Script      : index.php

@@ -7,6 +7,8 @@
  * Date        : 2021.02.04
  * Version     : 1.0
  */
+
+include_once("../controllers/upload.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,8 +64,9 @@
                                             <h4>Créer un post</h4>
                                         </div>
                                         <div class="panel-body">
-                                            <form action="../" method="POST" id="formCreate">
+                                            <form action="../controllers/upload.php" method="POST" id="formCreate" enctype="multipart/form-data">
                                                 <textarea class="col-sm-12" name="content" form="formCreate" placeholder="Contenu du poste"></textarea>
+                                                <input type="file" name="fichiers[]" accept="image/jpeg,image/png,image/gif" multiple>
                                                 <input class="btn btn-primary" type="submit" name="create" value="Créer">
                                             </form>
                                         </div>
