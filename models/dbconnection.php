@@ -1,6 +1,6 @@
 <?php
 
-function connectDb()
+function ConnectDb()
 {
     $dbServer = "127.0.0.1";
     $dbName = "portfolio";
