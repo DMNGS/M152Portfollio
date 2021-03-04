@@ -62,9 +62,14 @@ include_once("../controllers/upload.php");
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
                                             <h4>Créer un post</h4>
+                                            <?php
+                                            for ($i=0; $i < count(($erreurs)); $i++) { 
+                                                echo "<h5 class='text-danger'>" . $erreurs[$i] . "</h5>";
+                                            }
+                                            ?>
                                         </div>
                                         <div class="panel-body">
-                                            <form action="../controllers/upload.php" method="POST" id="formCreate" enctype="multipart/form-data">
+                                            <form action="" method="POST" id="formCreate" enctype="multipart/form-data">
                                                 <textarea class="col-sm-12" name="content" form="formCreate" placeholder="Contenu du poste"></textarea>
                                                 <input type="file" name="fichiers[]" accept="image/jpeg,image/png,image/gif" multiple>
                                                 <input class="btn btn-primary" type="submit" name="create" value="Créer">
