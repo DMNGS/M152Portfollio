@@ -1,15 +1,27 @@
 <?php
 require_once "dbconnection.php";
 
-function Select($table)
+//Lit les données de la table des posts
+function Select()
 {
     $db = ConnectDb();
-    $sql = "SELECT * FROM `:table`";
+    $sql = "SELECT * FROM `posts`";
     $request = $db->prepare($sql);
-    $request->execute(array('table' => $table));
+    $request->execute(array());
     return $request->fetchAll(PDO::FETCH_ASSOC);
 }
 
+//Cherche les média d'un poste donné
+function SelectMediaFromPost($idPost)
+{
+    $db = ConnectDb();
+    $sql = "SELECT * FROM `medias` WHERE `idPost`=:idPost";
+    $request = $db->prepare($sql);
+    $request->execute(array('idPost' => $idPost));
+    return $request->fetchAll(PDO::FETCH_ASSOC);
+}
+
+//Compte le nombre de postes dans la base
 function CompterPostes()
 {
     $db = ConnectDb();
@@ -19,6 +31,7 @@ function CompterPostes()
     return $request->fetchColumn();
 }
 
+//Crée un poste dans la base
 function InsertPoste($commentaire)
 {
     $db = connectDb();
@@ -34,6 +47,7 @@ function InsertPoste($commentaire)
     }
 }
 
+//Crée un média dans la base
 function InsertMedia($media, $idPoste)
 {
     $db = connectDb();

@@ -63,7 +63,7 @@ include_once("../controllers/upload.php");
                                         <div class="panel-heading">
                                             <h4>Créer un post</h4>
                                             <?php
-                                            for ($i=0; $i < count(($erreurs)); $i++) { 
+                                            for ($i = 0; $i < count(($erreurs)); $i++) {
                                                 echo "<h5 class='text-danger'>" . $erreurs[$i] . "</h5>";
                                             }
                                             ?>

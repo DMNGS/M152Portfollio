@@ -9,7 +9,10 @@
  * Version     : 1.0
  */
 
+include_once("models/functions.php");
+
 $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_STRING);
+$posts = Select();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,23 +71,26 @@ $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_STRING);
                                     </div>
                                 </div>
 
-                                <div class="col-sm-9">  
+                                <div class="col-sm-9">
 
-                                    <!-- Exemple de post
-                                    <div class="panel panel-default">
+                                    <?php
+                                    for ($i = 0; $i < count($posts); $i++) {
+                                        $post = '<div class="panel panel-default">
                                         <div class="panel-heading">
-                                            <h4>Lorem Ipsum</h4>
+                                            <h4>' . $posts[$i]['commentaire'] . '</h4>
+                                        </div>';
+                                        
+                                        foreach (SelectMediaFromPost($posts[$i]['idPost']) as $key => $value) {
+                                            $post .= '<img src="/img/' . $value['nomFichierMedia'] . '">';
+                                        }
+
+                                        $post .= '<div class="panel-body">
                                         </div>
-                                        <div class="panel-body">
-                                            Magna nulla consequat aliquip esse non id mollit sint qui Lorem. Voluptate ullamco anim do duis excepteur eiusmod est cillum culpa nostrud nulla do.
-                                            Ipsum dolor aliqua est enim id exercitation magna amet aute excepteur amet laborum laborum. Ullamco eiusmod nulla reprehenderit anim minim aliqua laboris in culpa nisi aute.
-                                            Est nulla Lorem ipsum sint in irure consequat nostrud minim in nostrud commodo consectetur.
-                                            Occaecat enim voluptate ipsum id proident ipsum nisi nulla sit esse qui. Cillum pariatur quis quis voluptate ipsum veniam fugiat aliquip laborum quis. Ex quis aliqua irure irure.
-                                            Aute ipsum laborum do dolore velit Lorem irure nulla veniam tempor quis qui excepteur. Nulla fugiat nisi anim Lorem aliqua.
-                                            Tempor id et duis dolor elit exercitation minim eiusmod ut elit labore.
-                                        </div>
-                                    </div>
-                                    -->
+                                        </div>';
+
+                                        echo $post;
+                                    }
+                                    ?>
 
                                 </div>
 

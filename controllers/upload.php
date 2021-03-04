@@ -54,5 +54,7 @@ if (isset($_FILES) && is_array($_FILES) && count($_FILES) > 0) {
             $extention = pathinfo($fichiers["name"][$i])["extension"];
             InsertMedia("$nomUnique.$extention", $nbPosts);
         }
+
+        header("location:../index.php");
     }
 }
