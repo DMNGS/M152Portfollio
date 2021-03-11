@@ -1,17 +1,18 @@
 <?php
+include_once("../models/tableauxTypes.inc.php");
 require_once("../models/functions.php");
 
 define("TAILLE_MAX_FICHIER", 3000000);
 define("TAILLE_MAX_TOTALE", 70000000);
 
 
-$dossier = "../img/";
+$dossier = "/mnt/c/Users/SAMUEL.DMNGS/Pictures/";
 $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_STRING);
-$typesAutorises = array("image/jpeg", "image/png", "image/gif", "image/svg");
 $erreurs = array();
+$extention = array();
 // $postes = count(CompterPostes());
 // $nbPostes =count($postes['idPost]']);
-$nbPosts = CompterPostes();
+$nbPosts = CompterPostes() + 1;
 $tailleTotaleFichiers = 0;
 
 //Vérifie qu'on a envoyer des fichers
@@ -19,6 +20,8 @@ if (isset($_FILES) && is_array($_FILES) && count($_FILES) > 0) {
     $fichiers = $_FILES['fichiers'];
 
     for ($i = 0; $i < count($fichiers['name']); $i++) {
+        $extention[$i] = pathinfo($fichiers["name"][$i])["extension"];
+
         //Vérifie que la taille du ficher ne dépasse pas 3 Mo
         if ($fichiers['size'][$i] > TAILLE_MAX_FICHIER) {
             $erreurs[count($erreurs)] = $fichiers['name'][$i] . " est trop grand.";
@@ -26,8 +29,12 @@ if (isset($_FILES) && is_array($_FILES) && count($_FILES) > 0) {
         $tailleTotaleFichiers += $fichiers['size'][$i];
 
         //Vérifie qu'on a que des fichers du bon type
-        if (!in_array($fichiers['type'][$i], $typesAutorises)) {
-            $erreurs[count($erreurs)] = $fichiers['name'][$i] . " n'est pas une image.";
+        if (
+            !in_array($extention[$i], $typesImage) &&
+            !in_array($extention[$i], $typesVideo) &&
+            !in_array($extention[$i], $typesAudio))
+        {
+            $erreurs[count($erreurs)] = $fichiers['name'][$i] . " n'est pas un fichier autorisé.";
         }
     }
 
@@ -37,11 +44,10 @@ if (isset($_FILES) && is_array($_FILES) && count($_FILES) > 0) {
     }
 
     for ($i = 0; $i < count($fichiers['name']); $i++) {
-        $nomUnique = uniqid("", false);
-        $extention = pathinfo($fichiers["name"][$i])["extension"];
+        $nomFinal[$i] = uniqid("", false);
+        $cheminFichier = $dossier . $nomFinal[$i]. ".". $extention[$i];
 
-        if (move_uploaded_file($fichiers['tmp_name'][$i], "$dossier$nomUnique.$extention")) {
-        } else {
+        if (!move_uploaded_file($fichiers['tmp_name'][$i], $cheminFichier)) {
             $erreurs[count($erreurs)] = "Erreur dans l'upload de " . $fichiers['name'][$i];
         }
     }
@@ -50,9 +56,7 @@ if (isset($_FILES) && is_array($_FILES) && count($_FILES) > 0) {
         InsertPoste($content);
 
         for ($i = 0; $i < count($fichiers['name']); $i++) {
-            $nomUnique = uniqid("", false);
-            $extention = pathinfo($fichiers["name"][$i])["extension"];
-            InsertMedia("$nomUnique.$extention", $nbPosts);
+            InsertMedia($nomFinal[$i]. ".". $extention[$i], $nbPosts);
         }
 
         header("location:../index.php");

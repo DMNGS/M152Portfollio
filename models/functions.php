@@ -25,7 +25,7 @@ function SelectMediaFromPost($idPost)
 function CompterPostes()
 {
     $db = ConnectDb();
-    $sql = "SELECT * FROM `posts`";
+    $sql = "SELECT COUNT(*) FROM `posts`";
     $request = $db->prepare($sql);
     $request->execute(array());
     return $request->fetchColumn();

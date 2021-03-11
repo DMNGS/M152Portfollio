@@ -9,6 +9,7 @@
  * Version     : 1.0
  */
 
+include_once("models/tableauxTypes.inc.php");
 include_once("models/functions.php");
 
 $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_STRING);
@@ -25,6 +26,7 @@ $posts = Select();
     <link href="./css/all.css" rel="stylesheet">
     <link href="./css/bootstrap.css" rel="stylesheet">
     <link href="./css/facebook.css" rel="stylesheet">
+    <link href="./css/main.css" rel="stylesheet">
 </head>
 
 <body>
@@ -79,13 +81,28 @@ $posts = Select();
                                         <div class="panel-heading">
                                             <h4>' . $posts[$i]['commentaire'] . '</h4>
                                         </div>';
+                                        $post .= '<div class="panel-body">';
+
                                         
                                         foreach (SelectMediaFromPost($posts[$i]['idPost']) as $key => $value) {
-                                            $post .= '<img src="/img/' . $value['nomFichierMedia'] . '">';
+                                            if (in_array(pathinfo($value["nomFichierMedia"])["extension"], $typesImage)) {
+                                                $post .= '<img class="img-fluid img-thumbnail img-post" src="/img/' . $value['nomFichierMedia'] . '">';
+                                            }
+                                            elseif (in_array(pathinfo($value["nomFichierMedia"])["extension"], $typesVideo)) {
+                                                $post .= '<video class="img-post" controls autoplay loop>
+                                                <source src="/img/' . $value['nomFichierMedia'] . '" type="video/mp4">
+                                              Your browser does not support the video tag.
+                                              </video>';
+                                            }
+                                            elseif (in_array(pathinfo($value["nomFichierMedia"])["extension"], $typesAudio)) {
+                                                $post.= ' <audio controls autoplay loop>
+                                                <source src="/img/' . $value['nomFichierMedia'] . '" type="audio/mpeg">
+                                              Your browser does not support the audio element.
+                                              </audio> ';
+                                            }
                                         }
 
-                                        $post .= '<div class="panel-body">
-                                        </div>
+                                        $post .= '</div>
                                         </div>';
 
                                         echo $post;

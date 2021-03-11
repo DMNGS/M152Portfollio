@@ -71,7 +71,7 @@ include_once("../controllers/upload.php");
                                         <div class="panel-body">
                                             <form action="" method="POST" id="formCreate" enctype="multipart/form-data">
                                                 <textarea class="col-sm-12" name="content" form="formCreate" placeholder="Contenu du poste"></textarea>
-                                                <input type="file" name="fichiers[]" accept="image/jpeg,image/png,image/gif" multiple>
+                                                <input type="file" name="fichiers[]" accept="image/jpeg, image/png, image/gif, image/svg, video/mp4, video/x-matroska, video/webm" multiple>
                                                 <input class="btn btn-primary" type="submit" name="create" value="Créer">
                                             </form>
                                         </div>
