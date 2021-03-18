@@ -21,16 +21,6 @@ function SelectMediaFromPost($idPost)
     return $request->fetchAll(PDO::FETCH_ASSOC);
 }
 
-//Compte le nombre de postes dans la base
-function CompterPostes()
-{
-    $db = ConnectDb();
-    $sql = "SELECT * FROM `posts`";
-    $request = $db->prepare($sql);
-    $request->execute(array());
-    return $db->lastInsertId();
-}
-
 //Crée un poste dans la base
 function InsertPoste($commentaire)
 {
@@ -67,6 +57,43 @@ function InsertMedia($media, $idPoste)
         ));
         $db->commit();
     } catch (Exception $e) {
+        $db->rollBack();
+    }
+}
+
+function Update($commentaire, $idPoste)
+{
+    $db = connectDb();
+    $sql = "UPDATE `table` 
+            SET `commentaire` = :commentaire,
+            SET `dateDeModification` = :dateDeModification
+            WHERE `idPost` = :idPost";
+
+    $request = $db->prepare($sql);
+    $request->bindParam(":commentaire", $commentaire);
+    $request->bindParam(":dateDeModification", date("Y-m-d"));
+    $request->bindParam(":idPost", $idPoste);
+    $request->execute();
+}
+
+function SupprimerPoste($id)
+{
+    $db = connectDb();
+    $sqlPost = "DELETE FROM `posts` WHERE `id` = :id";
+    $sqlMedias = "DELETE FROM `medias` WHERE `idPost` = :id";
+    
+    $db->beginTransaction();
+    
+    try {
+        $requestPost = $db->prepare($sqlPost);
+        $requestPost->bindParam(":id", $id);
+        $requestPost->execute();
+        $requestPost = $db->prepare($sqlMedias);
+        $requestPost->bindParam(":id", $id);
+        $requestPost->execute();
+
+        $db->commit();
+    } catch (\Throwable $th) {
         $db->rollBack();
     }
 }
