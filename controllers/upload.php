@@ -1,12 +1,12 @@
 <?php
-include_once("../models/tableauxTypes.inc.php");
+require_once("../models/tableauxTypes.inc.php");
 require_once("../models/functions.php");
 
 define("TAILLE_MAX_FICHIER", 3000000);
 define("TAILLE_MAX_TOTALE", 70000000);
 
 
-$dossier = "/mnt/c/Users/SAMUEL.DMNGS/Pictures/";
+$dossier = "../img/";
 $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_STRING);
 $erreurs = array();
 $extention = array();

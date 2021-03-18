@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Projet      : M152Portfollio
  * Script      : index.php
@@ -9,8 +8,8 @@
  * Version     : 1.0
  */
 
-include_once("models/tableauxTypes.inc.php");
-include_once("models/functions.php");
+require_once("models/tableauxTypes.inc.php");
+require_once("models/functions.php");
 
 $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_STRING);
 $posts = Select();

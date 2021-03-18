@@ -25,10 +25,10 @@ function SelectMediaFromPost($idPost)
 function CompterPostes()
 {
     $db = ConnectDb();
-    $sql = "SELECT COUNT(*) FROM `posts`";
+    $sql = "SELECT * FROM `posts`";
     $request = $db->prepare($sql);
     $request->execute(array());
-    return $request->fetchColumn();
+    return $db->lastInsertId();
 }
 
 //Crée un poste dans la base
@@ -37,13 +37,16 @@ function InsertPoste($commentaire)
     $db = connectDb();
     $sql = "INSERT INTO `posts`(`commentaire`, `dateDeCreation`) VALUES (:commentaire, :dateDeCreation)";
     $request = $db->prepare($sql);
-    if ($request->execute(array(
-        'commentaire' => $commentaire,
-        'dateDeCreation' => date("Y-m-d")
-    ))) {
-        return $db->lastInsertID();
-    } else {
-        return NULL;
+
+    $db->beginTransaction();
+    
+    try {
+        $request->execute(array(
+            'commentaire' => $commentaire,
+            'dateDeCreation' => date("Y-m-d")));
+        $db->commit();
+    } catch (Exception $e) {
+        $db->rollBack();
     }
 }
 
@@ -53,13 +56,17 @@ function InsertMedia($media, $idPoste)
     $db = connectDb();
     $sql = "INSERT INTO `medias`(`dateDeCreation`, `nomFichierMedia`, `idPost`) VALUES (:dateDeCreation, :nomFichierMedia, :idPost)";
     $request = $db->prepare($sql);
-    if ($request->execute(array(
-        'dateDeCreation' => date("Y-m-d"),
-        'nomFichierMedia' => $media,
-        'idPost' => $idPoste
-    ))) {
-        return $db->lastInsertID();
-    } else {
-        return NULL;
+
+    $db->beginTransaction();
+
+    try {
+        $request->execute(array(
+            'dateDeCreation' => date("Y-m-d"),
+            'nomFichierMedia' => $media,
+            'idPost' => $idPoste
+        ));
+        $db->commit();
+    } catch (Exception $e) {
+        $db->rollBack();
     }
 }
