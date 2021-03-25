@@ -6,12 +6,12 @@ define("TAILLE_MAX_FICHIER", 10000000);
 define("TAILLE_MAX_TOTALE", 70000000);
 
 
-$dossier = "/mnt/c/Users/SAMUEL.DMNGS/Pictures/";
+$dossier = "../media/img/";
 $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_STRING);
 $erreurs = array();
 $extention = array();
 $postes = Select();
-$nbPosts = $postes[count($postes)-1]['idPost'] + 1;
+$dernierPoste = $postes[count($postes)-1]['idPost'] + 1;
 $tailleTotaleFichiers = 0;
 
 //Vérifie qu'on a envoyer des fichers
@@ -55,7 +55,7 @@ if (isset($_FILES) && is_array($_FILES) && count($_FILES) > 0) {
         InsertPoste($content);
 
         for ($i = 0; $i < count($fichiers['name']); $i++) {
-            InsertMedia($nomFinal[$i]. ".". $extention[$i], $nbPosts);
+            InsertMedia($nomFinal[$i]. ".". $extention[$i], $dernierPoste);
         }
 
         header("location:../index.php");

@@ -26,6 +26,7 @@ $posts = Select();
     <link href="./css/bootstrap.css" rel="stylesheet">
     <link href="./css/facebook.css" rel="stylesheet">
     <link href="./css/main.css" rel="stylesheet">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 
 <body>
@@ -48,7 +49,7 @@ $posts = Select();
                                     <a href="./"><i class="fas fa-home"></i> Home</a>
                                 </li>
                                 <li>
-                                    <a href="./pages/post.php" role="button" data-toggle="modal"><i class="fas fa-plus"></i> Post</a>
+                                    <a href="./pages/post.php"><i class="fas fa-plus"></i> Post</a>
                                 </li>
                             </ul>
                         </nav>
@@ -74,28 +75,35 @@ $posts = Select();
 
                                 <div class="col-sm-9">
 
+
                                     <?php
                                     for ($i = 0; $i < count($posts); $i++) {
                                         $post = '<div class="panel panel-default">
-                                        <div class="panel-heading">
+                                        <div class="panel-heading flex-container">
                                             <h4>' . $posts[$i]['commentaire'] . '</h4>
+                                            <form action="controllers/delete.php" method="POST">
+                                                <input type="hidden" name="idPoste" value="'. $posts[$i]['idPost'].'">
+                                                <input type="submit" name="delete" value="X" class="btn btn-primary">
+                                            </form>
+                                            <form action="pages/change.php" method="POST">
+                                                <input type="hidden" name="idPoste" value="'. $posts[$i]['idPost'].'">
+                                                <input type="submit" name="modifier" value="Modifier" class="btn btn-primary">
+                                            </form>
                                         </div>';
                                         $post .= '<div class="panel-body">';
 
-                                        
+
                                         foreach (SelectMediaFromPost($posts[$i]['idPost']) as $key => $value) {
                                             if (in_array(pathinfo($value["nomFichierMedia"])["extension"], $typesImage)) {
-                                                $post .= '<img class="img-fluid img-thumbnail img-post" src="/img/' . $value['nomFichierMedia'] . '">';
-                                            }
-                                            elseif (in_array(pathinfo($value["nomFichierMedia"])["extension"], $typesVideo)) {
+                                                $post .= '<img class="img-fluid img-thumbnail img-post" src="/media/img/' . $value['nomFichierMedia'] . '">';
+                                            } elseif (in_array(pathinfo($value["nomFichierMedia"])["extension"], $typesVideo)) {
                                                 $post .= '<video class="img-post" controls autoplay loop>
-                                                <source src="/img/' . $value['nomFichierMedia'] . '" type="video/mp4">
+                                                <source src="/media/video/' . $value['nomFichierMedia'] . '" type="video/mp4">
                                               Your browser does not support the video tag.
                                               </video>';
-                                            }
-                                            elseif (in_array(pathinfo($value["nomFichierMedia"])["extension"], $typesAudio)) {
-                                                $post.= ' <audio controls autoplay loop>
-                                                <source src="/img/' . $value['nomFichierMedia'] . '" type="audio/mpeg">
+                                            } elseif (in_array(pathinfo($value["nomFichierMedia"])["extension"], $typesAudio)) {
+                                                $post .= ' <audio controls autoplay loop>
+                                                <source src="/media/audio/' . $value['nomFichierMedia'] . '" type="audio/mpeg">
                                               Your browser does not support the audio element.
                                               </audio> ';
                                             }

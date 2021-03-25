@@ -1,3 +1,10 @@
 .img-post{
    max-width: 500px; 
 }
+.flex-container {
+   display: flex;
+   flex-wrap: nowrap;
+   flex-direction: row;
+   margin: auto;
+   background-color: DodgerBlue;
+ }

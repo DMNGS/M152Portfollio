@@ -11,13 +11,25 @@ function Select()
     return $request->fetchAll(PDO::FETCH_ASSOC);
 }
 
+//Cherche un poste donné
+function SelectPoste($id)
+{
+    $db = ConnectDb();
+    $sql = "SELECT * FROM `posts` WHERE idPost=:id";
+    $request = $db->prepare($sql);
+    $request->bindParam('id', $id);
+    $request->execute();
+    return $request->fetchAll(PDO::FETCH_ASSOC);
+}
+
 //Cherche les média d'un poste donné
 function SelectMediaFromPost($idPost)
 {
     $db = ConnectDb();
     $sql = "SELECT * FROM `medias` WHERE `idPost`=:idPost";
     $request = $db->prepare($sql);
-    $request->execute(array('idPost' => $idPost));
+    $request->bindParam('idPost', $idPost);
+    $request->execute();
     return $request->fetchAll(PDO::FETCH_ASSOC);
 }
 
@@ -61,7 +73,7 @@ function InsertMedia($media, $idPoste)
     }
 }
 
-function Update($commentaire, $idPoste)
+function UpdatePoste($commentaire, $idPoste)
 {
     $db = connectDb();
     $sql = "UPDATE `table` 
@@ -79,7 +91,7 @@ function Update($commentaire, $idPoste)
 function SupprimerPoste($id)
 {
     $db = connectDb();
-    $sqlPost = "DELETE FROM `posts` WHERE `id` = :id";
+    $sqlPost = "DELETE FROM `posts` WHERE `idPost` = :id";
     $sqlMedias = "DELETE FROM `medias` WHERE `idPost` = :id";
     
     $db->beginTransaction();
@@ -93,7 +105,9 @@ function SupprimerPoste($id)
         $requestPost->execute();
 
         $db->commit();
+        return true;
     } catch (\Throwable $th) {
         $db->rollBack();
+        return false;
     }
 }
