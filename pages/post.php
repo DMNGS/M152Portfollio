@@ -35,7 +35,7 @@ include_once("../controllers/upload.php");
                     <!-- top nav -->
                     <div class="navbar navbar-blue navbar-static-top">
                         <div class="navbar-header">
-                            <img src="../img/pfp.png" alt="PFP" class="navbar-brand logo">
+                            <img src="../media/img/pfp.png" alt="PFP" class="navbar-brand logo">
                         </div>
                         <nav class="collapse navbar-collapse" role="navigation">
                             <ul class="nav navbar-nav">

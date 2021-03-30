@@ -3,10 +3,10 @@ require_once("../models/tableauxTypes.inc.php");
 require_once("../models/functions.php");
 
 $dossier = "../media/";
-$idPoste = filter_input(INPUT_POST, 'idPoste', FILTER_SANITIZE_STRING);
+$idPoste = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_STRING);
 $postes = Select();
 
-if (isset($_POST['delete'])) {
+if (isset($_GET['id'])) {
     for ($i = 0; $i < count($postes); $i++) {
         if ($postes[$i]['idPost'] == $idPoste) {
 

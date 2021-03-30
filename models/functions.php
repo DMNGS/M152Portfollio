@@ -41,11 +41,12 @@ function InsertPoste($commentaire)
     $request = $db->prepare($sql);
 
     $db->beginTransaction();
-    
+
     try {
         $request->execute(array(
             'commentaire' => $commentaire,
-            'dateDeCreation' => date("Y-m-d")));
+            'dateDeCreation' => date("Y-m-d")
+        ));
         $db->commit();
     } catch (Exception $e) {
         $db->rollBack();
@@ -73,19 +74,27 @@ function InsertMedia($media, $idPoste)
     }
 }
 
-function UpdatePoste($commentaire, $idPoste)
+function UpdatePoste($commentaire, $idPoste, $date)
 {
     $db = connectDb();
-    $sql = "UPDATE `table` 
+    $sql = "UPDATE `posts` 
             SET `commentaire` = :commentaire,
-            SET `dateDeModification` = :dateDeModification
+            `dateDeModification` = :dateDeModification
             WHERE `idPost` = :idPost";
 
-    $request = $db->prepare($sql);
-    $request->bindParam(":commentaire", $commentaire);
-    $request->bindParam(":dateDeModification", date("Y-m-d"));
-    $request->bindParam(":idPost", $idPoste);
-    $request->execute();
+    $db->beginTransaction();
+
+    try {
+        $request = $db->prepare($sql);
+        $request->bindParam(":commentaire", $commentaire);
+        $request->bindParam(":dateDeModification", $date);
+        $request->bindParam(":idPost", $idPoste);
+        $request->execute();
+
+        $db->commit();
+    } catch (\Throwable $th) {
+        $db->rollBack();
+    }
 }
 
 function SupprimerPoste($id)
@@ -93,9 +102,9 @@ function SupprimerPoste($id)
     $db = connectDb();
     $sqlPost = "DELETE FROM `posts` WHERE `idPost` = :id";
     $sqlMedias = "DELETE FROM `medias` WHERE `idPost` = :id";
-    
+
     $db->beginTransaction();
-    
+
     try {
         $requestPost = $db->prepare($sqlPost);
         $requestPost->bindParam(":id", $id);

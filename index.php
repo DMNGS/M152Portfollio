@@ -27,6 +27,30 @@ $posts = Select();
     <link href="./css/facebook.css" rel="stylesheet">
     <link href="./css/main.css" rel="stylesheet">
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            // Delete
+            $('.delete').click(function() {
+                var id = $(this).data('id');
+
+                // Selecting image source
+                var imgElement_src = $('#img_' + id).attr("src");
+
+                // AJAX request
+                $.ajax({
+                    delete: 'delete',
+                    id: '',
+                    data: {
+                        path: imgElement_src
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert("Error " + textStatus);
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -41,7 +65,7 @@ $posts = Select();
                     <!-- top nav -->
                     <div class="navbar navbar-blue navbar-static-top">
                         <div class="navbar-header">
-                            <img src="./img/pfp.png" alt="PFP" class="navbar-brand logo">
+                            <img src="./media/img/pfp.png" alt="PFP" class="navbar-brand logo">
                         </div>
                         <nav class="collapse navbar-collapse" role="navigation">
                             <ul class="nav navbar-nav">
@@ -66,7 +90,7 @@ $posts = Select();
                                 <div class="col-sm-3">
 
                                     <div class="panel panel-default">
-                                        <div class="panel-thumbnail col-sm-offset-1"><img src="./img/pfp.png" class="img-responsive"></div>
+                                        <div class="panel-thumbnail col-sm-offset-1"><img src="./media/img/pfp.png" class="img-responsive"></div>
                                         <div class="panel-body">
                                             <p class="lead">Bienvenue dans mon portfollio</p>
                                         </div>
@@ -81,14 +105,8 @@ $posts = Select();
                                         $post = '<div class="panel panel-default">
                                         <div class="panel-heading flex-container">
                                             <h4>' . $posts[$i]['commentaire'] . '</h4>
-                                            <form action="controllers/delete.php" method="POST">
-                                                <input type="hidden" name="idPoste" value="'. $posts[$i]['idPost'].'">
-                                                <input type="submit" name="delete" value="X" class="btn btn-primary">
-                                            </form>
-                                            <form action="pages/change.php" method="POST">
-                                                <input type="hidden" name="idPoste" value="'. $posts[$i]['idPost'].'">
-                                                <input type="submit" name="modifier" value="Modifier" class="btn btn-primary">
-                                            </form>
+                                            <button class="btn btn-primary"><a href="pages/change.php?id=' . $posts[$i]["idPost"] . '" alt="Edit" class="fas fa-pen"></a></button>
+                                            <button class="btn btn-primary delete"><a href="controllers/delete.php?id=' . $posts[$i]["idPost"] . '" alt="Delete" class="fas fa-times"></a></button>
                                         </div>';
                                         $post .= '<div class="panel-body">';
 

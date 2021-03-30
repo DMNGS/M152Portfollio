@@ -8,20 +8,20 @@ define("TAILLE_MAX_TOTALE", 70000000);
 
 $dossier = "../media/img/";
 $idPoste = filter_input(INPUT_POST, 'idPoste', FILTER_VALIDATE_INT);
+$idPosteModifier = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_STRING);
 $erreurs = array();
 $extention = array();
 $postes = Select();
-$posteAChanger = SelectPoste($idPoste);
+$posteAChanger = SelectPoste($idPosteModifier);
 $dernierPoste = $postes[count($postes) - 1]['idPost'] + 1;
 $tailleTotaleFichiers = 0;
 
 //Vérifie qu'on a envoyer des fichers
-if (isset($_POST['update'])) {
+if (isset($_FILES) && is_array($_FILES) && count($_FILES) > 0) {
+    $fichiers = $_FILES['fichiers'];
 
-    if (isset($_FILES) && is_array($_FILES) && count($_FILES) > 0) {
-        $fichiers = $_FILES['fichiers'];
-
+    if ($fichiers['name'][0] != "") {
         for ($i = 0; $i < count($fichiers['name']); $i++) {
             $extention[$i] = pathinfo($fichiers["name"][$i])["extension"];
 
@@ -40,7 +40,6 @@ if (isset($_POST['update'])) {
                 $erreurs[count($erreurs)] = $fichiers['name'][$i] . " n'est pas un fichier autorisé.";
             }
         }
-
         //Vérifier que la tialle totale ne dépasse pas 70 Mo
         if ($tailleTotaleFichiers > TAILLE_MAX_TOTALE) {
             $erreurs[count($erreurs)] = "Taille totale des images trop grandes.";
@@ -54,17 +53,17 @@ if (isset($_POST['update'])) {
                 $erreurs[count($erreurs)] = "Erreur dans l'upload de " . $fichiers['name'][$i];
             }
         }
+    }
 
-        if (count($erreurs) < 1) {
-            UpdatePoste($content, $idPoste);
+    if (count($erreurs) < 1) {
+        UpdatePoste($content, $idPoste, date("Y-m-d"));
 
+        if ($fichiers['name]'][0] != "") {
             for ($i = 0; $i < count($fichiers['name']); $i++) {
                 InsertMedia($nomFinal[$i] . "." . $extention[$i], $dernierPoste);
             }
-
-            header("location:../index.php");
         }
-    } else {
-        UpdatePoste($content, $idPoste);
+
+        header("location:../index.php");
     }
 }

@@ -35,7 +35,7 @@ include_once("../controllers/update.php");
                     <!-- top nav -->
                     <div class="navbar navbar-blue navbar-static-top">
                         <div class="navbar-header">
-                            <img src="../img/pfp.png" alt="PFP" class="navbar-brand logo">
+                            <img src="../media/img/pfp.png" alt="PFP" class="navbar-brand logo">
                         </div>
                         <nav class="collapse navbar-collapse" role="navigation">
                             <ul class="nav navbar-nav">
@@ -70,8 +70,8 @@ include_once("../controllers/update.php");
                                         </div>
                                         <div class="panel-body">
                                             <form action="" method="POST" id="formCreate" enctype="multipart/form-data">
-                                                <input type="hidden" name="idPoste" value="<?= $idPoste ?>">
-                                                <textarea class="col-sm-12" name="content" form="formCreate" placeholder="Contenu du poste" value="<?php echo $posteAChanger[0]['commentaire'] ?>"><?php echo $posteAChanger[0]['commentaire'] ?></textarea>
+                                                <input type="hidden" name="idPoste" value="<?= $idPosteModifier ?>">
+                                                <textarea class="col-sm-12" name="content" form="formCreate" placeholder="Contenu du poste" value=""><?php echo $posteAChanger[0]['commentaire'] ?></textarea>
                                                 <input type="file" name="fichiers[]" accept="image/jpeg, image/png, image/gif, image/svg, video/mp4, video/x-matroska, video/webm" multiple>
                                                 <input class="btn btn-primary" type="submit" name="update" value="Modifier">
                                             </form>
